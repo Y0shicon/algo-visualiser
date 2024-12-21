@@ -1,50 +1,46 @@
-# React + TypeScript + Vite
+# Sorting Algorithms Visualiser
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the Sorting Algorithms Visualiser! This project is designed to help you understand and visualize various sorting algorithms. It provides an interactive interface to see how different algorithms work step-by-step.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Visualize popular sorting algorithms such as Bubble Sort, Merge Sort, Quick Sort, and more.
+- Adjustable speed to control the visualization pace.
+- Option to generate random arrays of different sizes.
 
-## Expanding the ESLint configuration
+## Upcoming Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Sudoku Solver**: A new feature to visualize the process of solving Sudoku puzzles.
+- **Graph Traversal Algorithms**: Visualize algorithms like Depth-First Search (DFS) and Breadth-First Search (BFS).
 
-- Configure the top-level `parserOptions` property like this:
+## Installation
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+To run this project locally, follow these steps:
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/algo-visualiser.git
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Navigate to the project directory:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+cd algo-visualiser
 ```
+
+3. Install the dependencies:
+
+```bash
+npm install
+```
+
+4. Start the development server:
+
+```bash
+npm start
+```
+
+## Usage
+
+Once the development server is running, open your browser and navigate to `http://localhost:3000`. You will see the interface where you can select different sorting algorithms and visualize their execution.
