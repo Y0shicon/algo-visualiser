@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { shuffle } from "./lib/shuffle";
+import { shuffle } from "../lib/shuffle";
 
 enum SortingPhase {
   DIVIDING = "dividing",
@@ -16,7 +16,7 @@ const SortingVisualizer: React.FC = () => {
   const [sorting, setSorting] = useState<boolean>(false);
   const [comparison, setComparison] = useState<[number, number] | null>(null);
   const [sorted, setSorted] = useState<number[]>([]);
-  const [pivot, setPivot] = useState<number>(-1);
+  const [, setPivot] = useState<number>(-1);
   const [phase, setPhase] = useState<SortingPhase | null>(null);
   const [activeRange, setActiveRange] = useState<[number, number]>([0, 0]);
 

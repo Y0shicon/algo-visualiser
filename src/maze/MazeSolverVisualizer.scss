@@ -1,0 +1,44 @@
+.maze-solver-container {
+  text-align: center;
+
+  .controls {
+    margin: 20px;
+  }
+
+  .sliders {
+    margin: 20px;
+    label {
+      display: block;
+      margin: 10px 0;
+    }
+  }
+
+  .maze {
+    display: grid;
+    margin: 0 auto;
+    width: 400px;
+
+    .row {
+      display: flex;
+    }
+
+    .cell {
+      width: 20px;
+      height: 20px;
+      border: 1px solid #ccc;
+      background-color: white;
+
+      &.wall {
+        background-color: black;
+      }
+
+      &.visited {
+        background-color: lightblue;
+      }
+
+      &.path {
+        background-color: lightgreen;
+      }
+    }
+  }
+}

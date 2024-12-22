@@ -1,12 +1,27 @@
-import React from "react";
-import SortingVisualizer from "./SortingVisualizer.tsx";
-import "./styles.scss";
+import "./Sorting/styles.scss";
+import MazeSolverVisualizer from "./maze/MazeSolverVisualizer.tsx";
+import SortingVisualizer from "./Sorting/SortingVisualizer.tsx";
+import React, { useState } from "react";
 
 const App: React.FC = () => {
+  const [selectedComponent, setSelectedComponent] = useState("sorting");
+
   return (
     <div className="App">
-      <h1>Sorting Algorithm Visualizer</h1>
-      <SortingVisualizer />
+      <nav>
+        <button onClick={() => setSelectedComponent("sorting")}>
+          Sorting Algorithms
+        </button>
+        <button onClick={() => setSelectedComponent("maze")}>
+          Maze Solver
+        </button>
+      </nav>
+      <h1>Algorithm Visualizer</h1>
+      {selectedComponent === "sorting" ? (
+        <SortingVisualizer />
+      ) : (
+        <MazeSolverVisualizer />
+      )}
     </div>
   );
 };
