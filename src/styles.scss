@@ -91,12 +91,6 @@ $blue: #007bff;
       transition:
         height 0.1s ease,
         background-color 0.1s ease;
-      &.sorted {
-        background-color: $green;
-      }
-      &.comparing {
-        background-color: $yellow;
-      }
     }
   }
 }
