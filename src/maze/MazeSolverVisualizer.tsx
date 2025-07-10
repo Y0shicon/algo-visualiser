@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./MazeSolverVisualizer.scss";
 
 type Cell = {
@@ -11,16 +11,12 @@ type Cell = {
 
 const MazeSolverVisualizer: React.FC = () => {
   const [maze, setMaze] = useState<Cell[][]>([]);
-  const [mazeSize, setMazeSize] = useState<number>(10);
-  const [speed, setSpeed] = useState<number>(50);
+  const [mazeSize, setMazeSize] = useState<number>(20);
+  const [speed, setSpeed] = useState<number>(80);
   const [solving, setSolving] = useState<boolean>(false);
   const [algorithm, setAlgorithm] = useState<string>("DFS");
 
-  useEffect(() => {
-    generateMaze();
-  }, [mazeSize]);
-
-  const generateMaze = () => {
+  const generateMaze = useCallback(() => {
     const newMaze: Cell[][] = Array.from({ length: mazeSize }, (_, row) =>
       Array.from({ length: mazeSize }, (_, col) => ({
         row,
@@ -36,7 +32,7 @@ const MazeSolverVisualizer: React.FC = () => {
     newMaze[mazeSize - 1][mazeSize - 1].isWall = false;
 
     setMaze(newMaze);
-  };
+  }, [mazeSize]);
 
   const delay = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
@@ -140,6 +136,11 @@ const MazeSolverVisualizer: React.FC = () => {
     else if (algorithm === "BFS") await visualizeBFS();
   };
 
+  // Generate maze on initial render
+  useEffect(() => {
+    generateMaze();
+  }, [mazeSize, generateMaze]);
+
   return (
     <div className="maze-solver-container">
       <div className="controls">
@@ -191,6 +192,14 @@ const MazeSolverVisualizer: React.FC = () => {
                 className={`cell ${cell.isWall ? "wall" : ""}
                             ${cell.isVisited ? "visited" : ""}
                             ${cell.isPath ? "path" : ""}`}
+                onClick={() => {
+                  if (!solving) {
+                    const newMaze = [...maze];
+                    newMaze[rowIndex][colIndex].isWall =
+                      !newMaze[rowIndex][colIndex].isWall;
+                    setMaze(newMaze);
+                  }
+                }}
               />
             ))}
           </div>

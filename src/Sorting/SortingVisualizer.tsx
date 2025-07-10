@@ -11,7 +11,6 @@ enum SortingPhase {
 const SortingVisualizer: React.FC = () => {
   const [array, setArray] = useState<number[]>([]);
   const [arraySize, setArraySize] = useState<number>(20);
-  const [speed, setSpeed] = useState<number>(50);
   const [algorithm, setAlgorithm] = useState<string>("Bubble Sort");
   const [sorting, setSorting] = useState<boolean>(false);
   const [comparison, setComparison] = useState<[number, number] | null>(null);
@@ -19,6 +18,15 @@ const SortingVisualizer: React.FC = () => {
   const [, setPivot] = useState<number>(-1);
   const [phase, setPhase] = useState<SortingPhase | null>(null);
   const [activeRange, setActiveRange] = useState<[number, number]>([0, 0]);
+
+  const [speed, setSpeed] = useState<number>(50);
+  const speedRef = React.useRef(speed);
+
+  // Update speedRef whenever speed changes
+  // This is useful for accessing the latest speed value in async functions
+  useEffect(() => {
+    speedRef.current = speed;
+  }, [speed]);
 
   // Generate an evenly distributed array from 1 to arraySize
   const generateArray = useCallback(() => {
@@ -33,7 +41,7 @@ const SortingVisualizer: React.FC = () => {
   }, [arraySize]);
 
   useEffect(() => {
-    console.log("Array generated" + array);
+    // console.log("Array generated" + array);
   }, [array]);
 
   // Delay function for animation
@@ -42,7 +50,6 @@ const SortingVisualizer: React.FC = () => {
 
   // Sorting algorithms
   const bubbleSort = async () => {
-    setSorting(true);
     const arr = [...array];
     const finished: number[] = [];
     for (let i = 0; i < arr.length - 1; i++) {
@@ -52,18 +59,16 @@ const SortingVisualizer: React.FC = () => {
           [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
           setArray([...arr]);
         }
-        await delay(speed);
+        await delay(speedRef.current);
       }
       finished.push(arr.length - 1 - i);
       setSorted([...finished]);
     }
     setSorted([...finished, 0]);
-    setSorting(false);
     setComparison(null);
   };
 
   const selectionSort = async () => {
-    setSorting(true);
     const arr = [...array];
     for (let i = 0; i < arr.length; i++) {
       let minIdx = i;
@@ -72,18 +77,16 @@ const SortingVisualizer: React.FC = () => {
         if (arr[j] < arr[minIdx]) {
           minIdx = j;
         }
-        await delay(speed);
+        await delay(speedRef.current);
       }
       [arr[i], arr[minIdx]] = [arr[minIdx], arr[i]];
       setArray([...arr]);
       setSorted((prev) => [...prev, i]);
     }
-    setSorting(false);
     setComparison(null);
   };
 
   const insertionSort = async () => {
-    setSorting(true);
     const arr = [...array];
     for (let i = 1; i < arr.length; i++) {
       const key = arr[i];
@@ -93,13 +96,12 @@ const SortingVisualizer: React.FC = () => {
         arr[j + 1] = arr[j];
         j--;
         setArray([...arr]);
-        await delay(speed);
+        await delay(speedRef.current);
       }
       arr[j + 1] = key;
       setArray([...arr]);
       setSorted((prev) => [...prev, i]);
     }
-    setSorting(false);
     setComparison(null);
   };
 
@@ -109,7 +111,7 @@ const SortingVisualizer: React.FC = () => {
 
     setPhase(SortingPhase.DIVIDING);
     setActiveRange([start, end]);
-    await delay(speed);
+    await delay(speedRef.current);
 
     const mid = Math.floor((start + end) / 2);
     await mergeSort(arr, start, mid);
@@ -125,7 +127,7 @@ const SortingVisualizer: React.FC = () => {
       setActiveRange([start, end]);
       if (arr[i] <= arr[j]) merged.push(arr[i++]);
       else merged.push(arr[j++]);
-      await delay(speed);
+      await delay(speedRef.current);
     }
 
     while (i < mid) merged.push(arr[i++]);
@@ -135,7 +137,7 @@ const SortingVisualizer: React.FC = () => {
     for (let k = 0; k < merged.length; k++) {
       arr[start + k] = merged[k];
       setArray([...arr]);
-      await delay(speed);
+      await delay(speedRef.current);
     }
 
     setSorted((prev) => [
@@ -157,19 +159,19 @@ const SortingVisualizer: React.FC = () => {
 
     for (let i = start; i < end - 1; i++) {
       setComparison([i, pivotIdx]);
-      await delay(speed);
+      await delay(speedRef.current);
 
       if (arr[i] < arr[pivotIdx]) {
         [arr[i], arr[partitionIdx]] = [arr[partitionIdx], arr[i]];
         partitionIdx++;
         setArray([...arr]);
-        await delay(speed);
+        await delay(speedRef.current);
       }
     }
 
     [arr[pivotIdx], arr[partitionIdx]] = [arr[partitionIdx], arr[pivotIdx]];
     setArray([...arr]);
-    await delay(speed);
+    await delay(speedRef.current);
 
     setSorted((prev) => [...prev, partitionIdx]);
     setPivot(-1); // Clear pivot
@@ -181,11 +183,13 @@ const SortingVisualizer: React.FC = () => {
 
   // Handle sort based on selected algorithm
   const handleSort = async () => {
+    setSorting(true);
     if (algorithm === "Bubble Sort") await bubbleSort();
     else if (algorithm === "Selection Sort") await selectionSort();
     else if (algorithm === "Insertion Sort") await insertionSort();
     else if (algorithm === "Merge Sort") await mergeSort();
     else if (algorithm === "Quick Sort") await quickSort();
+    setSorting(false);
   };
 
   // Update getBarColor function
@@ -254,7 +258,7 @@ const SortingVisualizer: React.FC = () => {
             max="200"
             value={speed}
             onChange={(e) => setSpeed(Number(e.target.value))}
-            disabled={sorting}
+            // disabled={sorting}
           />
         </label>
       </div>

@@ -1,8 +1,12 @@
 .maze-solver-container {
   text-align: center;
+  width: 100%;
 
   .controls {
     margin: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
   }
 
   .sliders {
@@ -16,7 +20,8 @@
   .maze {
     display: grid;
     margin: 0 auto;
-    width: 400px;
+    // width: 400px;
+    place-items: center;
 
     .row {
       display: flex;
